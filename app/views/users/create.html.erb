@@ -1,0 +1,21 @@
+<% if @user.persisted? %>
+  <div class="centered-container">
+    <h1 style="text-align: center">
+      Seja bem-vindo, <%= @user.name %>
+    </h1>
+    <br>
+    <br>
+    <br>
+    <h2 style="text-align: center; font-size: initial">
+      Você será mensalmente um informado sobre <%= @user.neighbour.name %> por e-mail.
+    </h2>
+    <br>
+    <br>
+    <br>
+    <h3 style="text-align: center">
+      <a href="/">Voltar para Home</a>
+    </h3>
+  </div>
+<% else %>
+  <%= render 'form' %>
+<% end %>

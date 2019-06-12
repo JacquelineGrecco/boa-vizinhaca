@@ -1,0 +1,40 @@
+<div class="x_panel">
+  <div class="x_title">
+    <h2 style="width: 100%;">Índice de criminalidade em São Paulo</h2>
+    <div class="clearfix"></div>
+  </div>
+  <div class="x_content">
+    <div class="col-md-9 col-sm-12 col-xs-12">
+      <div class="demo-container" style="height:280px">
+        <div id="<%= chart_id %>" class="demo-placeholder"></div>
+      </div>
+    </div>
+
+
+  </div>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+    var randNum = function() {
+        return (Math.floor(Math.random() * (1 + 40 - 20))) + 20;
+    };
+    document.addEventListener("DOMContentLoaded", function() {
+        var chart_data = [];
+        var chart_id = <%= chart_id %>;
+        <%- data.each do |d| %>
+        chart_data.push({neighbour: "<%= d.name %>", index: <%= d.criminality_index %>});
+        <% end %>
+        Morris.Bar({
+            element: chart_id,
+            data: chart_data,
+            xkey: 'neighbour',
+            ykeys: ['index'],
+            labels: ['Índice de criminalidade'],
+            barRatio: 1.0,
+            barColors: ['#26B99A', '#34495E', '#ACADAC', '#3498DB'],
+            xLabelAngle: 35,
+            hideHover: 'auto',
+            resize: true
+        });
+    });
+</script>

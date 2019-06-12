@@ -1,0 +1,124 @@
+<div class="x_panel">
+  <div class="x_title">
+    <h2 style="width: 100%;"><%= occurrences.first[:type_string_plural].capitalize %> em <%= location[:name] %></h2>
+    <div class="clearfix"></div>
+  </div>
+  <div class="x_content">
+    <div class="col-md-9 col-sm-12 col-xs-12">
+      <div class="demo-container" style="height:280px">
+        <div id="<%= chart_id %>" class="demo-placeholder"></div>
+      </div>
+    </div>
+
+    <div class="col-md-3 col-sm-12 col-xs-12">
+      <div>
+        <div class="x_title">
+          <h2>Bairros</h2>
+          <div class="clearfix"></div>
+        </div>
+        <ul class="list-unstyled top_profiles scroll-view">
+          <%- occurrences.each do |occurrence| %>
+            <li class="media event">
+              <a class="pull-left border-aero profile_thumb">
+                <i class="fa fa-location-arrow blue"></i>
+              </a>
+              <div class="media-body">
+                <a class="title" href="#"><%= occurrence[:location][:name] %></a>
+                <p><strong><%= occurrence[:amount] %></strong> <%= occurrence[:type_string_plural] %></p>
+                </p>
+              </div>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+    var randNum = function() {
+        return (Math.floor(Math.random() * (1 + 40 - 20))) + 20;
+    };
+    document.addEventListener("DOMContentLoaded", function() {
+        var chart_label = '<%= occurrences.first[:type_string_plural].capitalize %>';
+        var chart_data = [];
+        var chart_id = <%= chart_id %>;
+        <%- data.each do |d| %>
+        chart_data.push([new Date("<%= d[:date_label] %>").getTime(), <%= d[:occurrence_count] %>]);
+        <% end %>
+        var chart_settings = {
+            grid: {
+                show: true,
+                aboveData: true,
+                color: "#3f3f3f",
+                labelMargin: 10,
+                axisMargin: 0,
+                borderWidth: 0,
+                borderColor: null,
+                minBorderMargin: 5,
+                clickable: true,
+                hoverable: true,
+                autoHighlight: true,
+                mouseActiveRadius: 100
+            },
+            series: {
+                lines: {
+                    show: true,
+                    fill: true,
+                    lineWidth: 2,
+                    steps: false
+                },
+                points: {
+                    show: true,
+                    radius: 4.5,
+                    symbol: "circle",
+                    lineWidth: 3.0
+                }
+            },
+            legend: {
+                position: "ne",
+                margin: [0, -25],
+                noColumns: 0,
+                labelBoxBorderColor: null,
+                labelFormatter: function(label, series) {
+                    return label + '&nbsp;&nbsp;';
+                },
+                width: 40,
+                height: 1
+            },
+            colors: ['#ff0000', '#3F97EB', '#72c380', '#6f7a8a', '#f7cb38', '#5a8022', '#2c7282'],
+            shadowSize: 0,
+            tooltip: true,
+            tooltipOpts: {
+                content: "%s: %y.0",
+                xDateFormat: "%d/%m",
+                shifts: {
+                    x: -30,
+                    y: -50
+                },
+                defaultTheme: false
+            },
+            yaxis: {
+                min: 0
+            },
+            xaxis: {
+                mode: "time",
+                minTickSize: [1, "month"],
+                timeformat: "%m/%Y",
+                min: chart_data[0][0],
+                max: chart_data[5][0]
+            }
+        };
+        $.plot( $(chart_id),
+            [{
+                label: chart_label,
+                data: chart_data,
+                lines: {
+                    fillColor: "rgba(150, 202, 89, 0.12)"
+                },
+                points: {
+                    fillColor: "#fff" }
+            }], chart_settings);
+    });
+</script>

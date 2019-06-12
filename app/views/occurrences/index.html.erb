@@ -1,0 +1,99 @@
+<div class="row">
+  <div class="col-sm-6 col-xs-12">
+    <h1>Boa noite, vizinhança!</h1>
+  </div>
+  <div class="col-sm-6 col-xs-12" style="padding-top: 1em;">
+    <a href="<%= new_user_path %>">
+      <button class="btn pull-right" type="button">
+        Cadastre-se!
+      </button>
+    </a>
+  </div>
+
+</div>
+
+<div class="row">
+  <div class="col-xs-12">
+    <h2>Veja o seu bairro</h2>
+    <%= select_tag "neighbour_id", options_from_collection_for_select(@neighbours, "id", "name"), include_blank: "Todos", class: "form-control", style: "max-width: 200px", id: "filter" %>
+  </div>
+  <script type="text/javascript" charset="utf-8">
+      var neighbours = document.getElementById("filter");
+      function findGetParameter(parameterName) {
+          var result = null,
+              tmp = [];
+          var items = location.search.substr(1).split("&");
+          for (var index = 0; index < items.length; index++) {
+              tmp = items[index].split("=");
+              if (tmp[0] === parameterName) result = decodeURIComponent(tmp[1]);
+          }
+          return result;
+      }
+      document.addEventListener("DOMContentLoaded", function() {
+          neighbours.addEventListener("change", function() {
+              console.log(neighbours.value);
+              var id = neighbours.value;
+              if (id){
+                  window.location.href = "/?neighbour_id=" + id;
+              }else {
+                  window.location.href = "/"
+              }
+          });
+
+          var neighbour_id = findGetParameter("neighbour_id");
+          if (neighbour_id) {
+              neighbours.value = neighbour_id;
+          }
+      });
+  </script>
+</div>
+
+<div class="row">&nbsp;</div>
+<div class="row">
+  <div class="col-md-6 col-xs-12">
+    <%= render "indexes_graphic",
+               chart_id: 'chart_plot_01',
+               data: @criminality_indexes
+    %>
+  </div>
+  <div class="col-md-6 col-xs-12">
+    <%= render "occurrences_graphic",
+               location: @location,
+               occurrences: @occurrences[:robbery],
+               chart_id: 'chart_plot_02',
+               data: @occurrences_monthly_data[:robbery]
+    %>
+  </div>
+  <div class="col-md-6 col-xs-12">
+    <%= render "occurrences_graphic",
+               location: @location,
+               occurrences: @occurrences[:theft],
+               chart_id: 'chart_plot_03',
+               data: @occurrences_monthly_data[:theft]
+    %>
+  </div>
+  <div class="col-md-6 col-xs-12">
+    <%= render "occurrences_graphic",
+               location: @location,
+               occurrences: @occurrences[:assault],
+               chart_id: 'chart_plot_04',
+               data: @occurrences_monthly_data[:assault]
+    %>
+  </div>
+  <div class="col-md-6 col-xs-12">
+    <%= render "occurrences_graphic",
+               location: @location,
+               occurrences: @occurrences[:rape],
+               chart_id: 'chart_plot_05',
+               data: @occurrences_monthly_data[:rape]
+    %>
+  </div>
+  <div class="col-md-6 col-xs-12">
+    <%= render "occurrences_graphic",
+               location: @location,
+               occurrences: @occurrences[:traffic],
+               chart_id: 'chart_plot_06',
+               data: @occurrences_monthly_data[:traffic]
+    %>
+  </div>
+</div>

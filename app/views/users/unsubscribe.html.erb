@@ -1,0 +1,13 @@
+<div class="centered-container">
+
+  <%= form_for :user, url: user_path(@user), method: :delete do |f| %>
+    <h1>Olá, <%= @user.name %>!</h1>
+    <h2>Deseja realmente parar de receber os informativos mensais no e-mail <%= @user.email %>?</h2>
+    <a href="/">
+      <button class="btn btn-success" type="button">
+        Não
+      </button>
+    </a>
+    <%= f.submit "Sim", class: "btn btn-danger pull-right" %>
+  <% end %>
+</div>
