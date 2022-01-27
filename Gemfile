@@ -29,7 +29,7 @@ gem 'gentelella-rails'
 gem 'mailjet', '~> 1.5'
 gem 'modernizr-rails'
 
-gem 'sidekiq', '~> 5.1', '>= 5.1.3'
+gem 'sidekiq', '~> 6.4'
 gem 'sidekiq-cron', '~> 1.1'
 
 gem 'redis-namespace', '~> 1.6.0'
